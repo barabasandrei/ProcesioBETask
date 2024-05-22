@@ -2,7 +2,7 @@
 using Application;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-
+using Infrastructure;
 namespace ProcesioWebApi
 {
     public class Program
@@ -12,9 +12,8 @@ namespace ProcesioWebApi
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
-            builder.Services.AddDbContext<ApplicationDbContext>(opt =>
-                opt.UseInMemoryDatabase("InMemDb"));
             builder.Services.AddApplicationServices();
+            builder.Services.AddInfrastructureServices(builder.Configuration);
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

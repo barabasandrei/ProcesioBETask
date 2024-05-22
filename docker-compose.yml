@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  procesiowebapi:
+    image: ${DOCKER_REGISTRY-}procesiowebapi
+    build:
+      context: .
+      dockerfile: ProcesioWebApi/Dockerfile

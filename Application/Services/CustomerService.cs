@@ -1,13 +1,12 @@
 ﻿using Application.Interfaces;
 using Domain.Entities;
-using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
-    public class CustomerService(ApplicationDbContext context) : ICustomerService
+    public class CustomerService(IApplicationDbContext context) : ICustomerService
     {
-        private readonly ApplicationDbContext _context = context;
+        private readonly IApplicationDbContext _context = context;
 
         public async Task<IEnumerable<Customer>> GetCustomersAsync()
         {
