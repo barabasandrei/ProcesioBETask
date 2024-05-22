@@ -1,4 +1,8 @@
 
+using Application;
+using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace ProcesioWebApi
 {
     public class Program
@@ -8,6 +12,10 @@ namespace ProcesioWebApi
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
+            builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+                opt.UseInMemoryDatabase("InMemDb"));
+            builder.Services.AddApplicationServices();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -18,8 +26,7 @@ namespace ProcesioWebApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            //app.UseHealthChecks("/health");
+            
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
