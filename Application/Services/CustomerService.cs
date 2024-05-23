@@ -4,9 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
-    public class CustomerService(IApplicationDbContext context) : ICustomerService
+    public class CustomerService : ICustomerService
     {
-        private readonly IApplicationDbContext _context = context;
+        private readonly IApplicationDbContext _context;
+
+        public CustomerService(IApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         public async Task<IEnumerable<Customer>> GetCustomersAsync()
         {

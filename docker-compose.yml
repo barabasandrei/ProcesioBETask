@@ -4,8 +4,18 @@ services:
   sqldata:
     image: mcr.microsoft.com/mssql/server:2019-latest
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
   procesiowebapi:
     image: ${DOCKER_REGISTRY-}procesiowebapi
     build:
       context: .
       dockerfile: ProcesioWebApi/Dockerfile
+
+  rabbitmqlistener:
+    image: ${DOCKER_REGISTRY-}rabbitmqlistener
+    build:
+      context: .
+      dockerfile: RabbitMqListener/Dockerfile
+

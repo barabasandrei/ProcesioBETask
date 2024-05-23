@@ -11,6 +11,14 @@ services:
     volumes:
       - app-sql-data:/var/opt/mssql
 
+  rabbitmq:
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+
   procesiowebapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -22,6 +30,13 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  rabbitmqlistener:
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+    ports:
+      - "5000:5001"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
 volumes:
   app-sql-data:
     external: false

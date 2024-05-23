@@ -4,7 +4,8 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "procesiowebapi": "StartDebugging"
+        "procesiowebapi": "StartDebugging",
+        "rabbitmqlistener": "StartDebugging"
       }
     }
   }
