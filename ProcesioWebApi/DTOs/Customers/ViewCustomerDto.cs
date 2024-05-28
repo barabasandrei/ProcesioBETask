@@ -1,6 +1,8 @@
-﻿namespace Domain.Entities
+﻿using Domain.Entities;
+
+namespace ProcesioWebApi.DTOs.Customers
 {
-    public class Customer
+    public class ViewCustomerDto
     {
         public int Id { get; set; }
 
@@ -9,7 +11,5 @@
         public required string Email { get; set; }
 
         public bool IsAccountValidated { get; set; }
-
-        public ICollection<Order> Orders { get; set; } = [];
     }
 }

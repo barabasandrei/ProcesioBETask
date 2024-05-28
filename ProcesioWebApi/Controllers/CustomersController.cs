@@ -1,28 +1,28 @@
 using Application.Interfaces;
+using AutoMapper;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using ProcesioWebApi.DTOs.Customers;
 
 namespace ProcesioWebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CustomersController : ControllerBase
+    public class CustomersController(ICustomerService customerService, IMapper mapper) : ControllerBase
     {
-        private readonly ICustomerService _customerService;
+        private readonly ICustomerService _customerService = customerService;
+        private readonly IMapper _mapper = mapper;
 
-        public CustomersController(ICustomerService customerService)
-        {
-            _customerService = customerService;
-        }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        public async Task<ActionResult<IEnumerable<ViewCustomerDto>>> GetCustomers()
         {
             var customers = await _customerService.GetCustomersAsync();
-            return Ok(customers);
+            var customerDtos = _mapper.Map<IEnumerable<ViewCustomerDto>>(customers);
+            return Ok(customerDtos);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        public async Task<ActionResult<ViewCustomerDto>> GetCustomer(int id)
         {
             var customer = await _customerService.GetCustomerByIdAsync(id);
 
@@ -31,24 +31,28 @@ namespace ProcesioWebApi.Controllers
                 return NotFound();
             }
 
-            return Ok(customer);
+            var customerDto = _mapper.Map<ViewCustomerDto>(customer);
+            return Ok(customerDto);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        public async Task<ActionResult<ViewCustomerDto>> PostCustomer(CreateCustomerDto customerDto)
         {
+            var customer = _mapper.Map<Customer>(customerDto);
             var createdCustomer = await _customerService.AddCustomerAsync(customer);
-            return CreatedAtAction(nameof(GetCustomer), new { id = createdCustomer.Id }, createdCustomer);
+            var createdCustomerDto = _mapper.Map<ViewCustomerDto>(createdCustomer);
+            return CreatedAtAction(nameof(GetCustomer), new { id = createdCustomerDto.Id }, createdCustomerDto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
+        public async Task<IActionResult> PutCustomer(int id, UpdateCustomerDto customerDto)
         {
-            if (id != customer.Id)
+            if (id != customerDto.CustomerId)
             {
                 return BadRequest();
             }
 
+            var customer = _mapper.Map<Customer>(customerDto);
             var updateSuccessful = await _customerService.UpdateCustomerAsync(customer);
 
             if (!updateSuccessful)

@@ -32,7 +32,7 @@ namespace Application.Services
             await _context.SaveChangesAsync();
 
             //TODO: yuck. I'll replace this with an order to ordercreatedevent mapper or something along these lines
-            var @event = new OrderCreatedEvent { CustomerId = Order.CustomerId, OrderId = Order.OrderId, CreatedAt = DateTime.Now };
+            var @event = new OrderCreatedEvent { OrderId = Order.OrderId, CustomerId = Order.CustomerId, CreatedAt = DateTime.Now };
             await _messagePublisher.PublishAsync(@event);
 
             return Order;

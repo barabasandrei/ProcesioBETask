@@ -1,6 +1,4 @@
-﻿using Domain.Entities;
-
-namespace ProcesioWebApi.DTOs.OrderItems
+﻿namespace ProcesioWebApi.DTOs.OrderItems
 {
     public class OrderItemDto
     {
